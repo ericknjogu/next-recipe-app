@@ -1,3 +1,22 @@
-export default async function RecipeDetails() {
-  return <div>Recipe Details</div>;
+import RecipeDetailsItem from "@/components/recipe-details";
+
+async function fetchRecipeDetails(currentRecipeId) {
+  try {
+    const response = await fetch(
+      `https://dummyjson.com/recipes/${currentRecipeId}`
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+export default async function RecipeDetails({ params }) {
+  const getRecipeDetails = await fetchRecipeDetails(params?.details);
+  return (
+    <div>
+      <RecipeDetailsItem getRecipeDetails={getRecipeDetails} />
+    </div>
+  );
 }
